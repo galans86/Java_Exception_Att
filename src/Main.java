@@ -11,8 +11,11 @@ public class Main {
             System.out.println(e.getMessage());
         } catch (phoneException e) {
             System.out.println(e.getMessage());
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getStackTrace());
+        } catch (IOException e) {
+            System.out.println(e.getStackTrace());
         }
-
     }
 
     static String getUserData() throws checkInputException, phoneException {
@@ -28,30 +31,23 @@ public class Main {
 
         try {
             Long phone = Long.valueOf(userData[3]);
-//            if (userData[3].length() < 8)
-//                throw new phoneException("Номер телефона менее 8 цифр");
         } catch (Exception e) {
             throw new phoneException("Введен некорректный номер телефона");
         }
         return uData;
     }
 
-    static void writeToFile(String uData) {
+    static void writeToFile(String uData) throws FileNotFoundException, IOException {
         String[] userData = uData.split(" ");
         String filename = userData[0] + ".txt";
 
         try (FileWriter fileWriter = new FileWriter(filename, true)) {
             fileWriter.write(uData + "\n");
-        } catch (FileNotFoundException ex) {
-            System.out.println(ex.getStackTrace());
-        } catch (IOException ex) {
-            System.out.println(ex.getStackTrace());
         }
     }
 }
 
-
-class checkInputException extends Exception{
+class checkInputException extends Exception {
     checkInputException(String message) {
         super(message);
     }
